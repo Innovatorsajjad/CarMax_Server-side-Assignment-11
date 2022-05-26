@@ -37,6 +37,14 @@ async function run() {
         const result = await carCollection.deleteOne(query);
         res.send(result.acknowledged);
     })
+    app.get('/myitems', async (req, res) => {
+        const email = req.query.email;
+        const query = { email: email };
+        const cursor = carCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
      
     } finally {
     //   await client.close();
