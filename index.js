@@ -50,6 +50,33 @@ async function run() {
       const result = await carCollection.findOne(query);
       res.send(result);
   })
+  app.put('/inventory/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const quantity = req.body.quantity;
+    console.log(quantity);
+    const deliveryQuantity = req.body.delivery;
+    const updateInput = req.body.updateInput;
+    const filter = { _id: ObjectId(id) };
+    const options = { upsert: true };
+    let updateDoc;
+    if (deliveryQuantity === 'delivered') {
+        updateDoc = {
+            $set: {
+                quantity: quantity - 1
+            },
+        };
+    }
+    else {
+        updateDoc = {
+            $set: {
+                quantity: quantity + updateInput
+            },
+        };
+    }
+    const result = await carCollection.updateOne(filter, updateDoc, options);
+    res.send(result.acknowledged);
+})
 
      
     } finally {
