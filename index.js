@@ -18,7 +18,14 @@ async function run() {
     try {
       await client.connect();
       console.log("DB Connected");
-     
+      const carCollection = client.db('carmax').collection('cars');
+      console.log('DB CONNECTED');
+      app.post('/allproducts', async (req, res) => {
+        const products = req.body;
+        const result = await carCollection.insertOne(products);
+        console.log(products)
+        res.send(result.acknowledged)
+      })
      
     } finally {
     //   await client.close();
