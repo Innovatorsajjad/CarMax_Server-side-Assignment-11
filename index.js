@@ -26,6 +26,12 @@ async function run() {
         console.log(products)
         res.send(result.acknowledged)
       })
+      app.get('/allproducts', async (req, res) => {
+        const cursor = carCollection.find({});
+        const result = await cursor.toArray();
+        console.log(result)
+        res.send(result);
+    })
      
     } finally {
     //   await client.close();
